@@ -1,0 +1,152 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Lachaise Assignment
+% LaTeX Template
+% Version 1.0 (26/6/2018)
+%
+% This template originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Marion Lachaise & François Févotte
+% Vel (vel@LaTeXTemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+\usepackage{enumerate}
+
+\input{structure.tex} % Include the file specifying the document structure and custom commands
+
+%----------------------------------------------------------------------------------------
+%	ASSIGNMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Group 9: Project Proposal} % Title of the assignment
+
+\author{Hangyu Wang, Michael Dineen, Liam Nagel, Chenyu Tian\\}% \texttt{y.amagi@inabauniversity.jp}} % Author name and email address
+
+\date{Stevens Institute of Technology} % University, school and/or department name(s) and a date
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION
+%----------------------------------------------------------------------------------------
+
+\section*{Introduction} % Unnumbered section
+
+In this project, we will implement a puzzle system for candidate to take online quick quizzes. In this system, there are three kind of participants: 1) Puzzle Creators, 2) Candidates and 3) System Administrator. And features is shown below.
+
+% Math equation/formula
+%\begin{equation}
+%	I = \int_{a}^{b} f(x) \; \text{d}x.
+%\end{equation}
+
+
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Core Implementation} % Numbered section
+
+For the core features, we will not take the participant, system administrator, into consideration for our convenience. The administrator will be considered in the extra Implementation part. Thus, the following users mention in this part are puzzle creators and candidates.
+
+\subsection{User Information Management}
+This part is mainly built to manage the information of users. In this part, a user can register a new account or login the puzzle platform. Once there is a new registration, the relating information will be added to the participant database. 
+
+ \textbf{feature 1} Registration and Login: For a new user to register, the user should input: Name, Identity(puzzles creator and candidate) and Password. After registration, user can go to the login page to enter the platform. To login, user needs to input name, identity (puzzles creator and candidate) and password. Once pass, user can enter the pages relating to the identity.
+ 
+ \textbf{feature 2} Information updating: For puzzle creators and candidates, after entering the platform, they can update their password in setting page. But they cannot update their name and identity. Here, we just assume that every user will input their identity right when registration. But for the extra implementation, the system administrator is allowed to update the identity for users(see \textbf{extra feature 1}).
+
+%------------------------------------------------
+
+\subsection{Puzzle Collection Management}
+This part is mainly built for puzzle creators. User only with puzzle creator identity can enter this part. puzzle creators can create questions which will be recorded in the puzzle database. Puzzles consist of descriptions and answers. And all puzzles are choice questions. In this platform, puzzles can be viewed, updated and removed.
+
+ \textbf{feature 3} Create Puzzles:
+In this page, puzzle creator can create a puzzle. Since only choice questions(okay to be multiple choice) are allowed, puzzle creators need to give the description of the puzzle and 4-6 choices(less or more is not allowed). To grading more efficiently, right or wrong of each choice should be indicated when creating a puzzle. If not indicated, then the platform will ask puzzle creator to indicate the answer.
+
+ \textbf{feature 4} View Puzzles: 
+In the puzzle creators' platform, a puzzle creator can view whole puzzle database. And searching function is set in this part for puzzle creators to view puzzles with certain keyword.
+
+ \textbf{feature 5} Update Puzzles: 
+ Puzzle creators can update the description and answers of any puzzle. 
+
+ \textbf{feature 6} Remove Puzzles:
+Puzzle creators can delete any puzzle if they think this puzzle is not necessary.
+
+\subsection{Puzzle Platform}
+This part is built for all users. Users can generate an exam. The exam generated is based on the puzzle database. User can get the score automatically when they submit the exam or end of exam time.
+
+ \textbf{feature 8} Generate a Quiz: 
+On the create quiz page, user need to input what kind of puzzle they want to take with keyword. Then 5 puzzles will be generated automatically according to the keyword given. If there is not enough puzzles relating to this keyword, the existing puzzles relating to it will be posted in the exam. If there is no relating puzzle, the page will report it. If no keyword is given, random 5 puzzles will be taken into the quiz. And time of a quiz will be same as the number of the puzzles.
+
+%\begin{warn}[details:]
+%\begin{enumerate}[i]
+%\item For puzzle number, there will be total puzzle number, choice puzzle number and filling blanket puzzle number. If only total puzzle number is given, then the number of the each type of the puzzle is random. If only choice puzzle number and filling blanket puzzle number are given, then certain number of puzzles will be generated. If all these three numbers are given, then total puzzle number should equal to the sum of choice puzzle number and filling blanket puzzle number. Then the exam will be generated based on the certain number. 
+
+%\item And a time should be give to tell how long this exam is. Of course, puzzle creator can also set a title for this exam. 
+%\end{enumerate}
+%\end{warn}
+
+ \textbf{feature 9} Quiz page: On the exam pages, Users can view and answer puzzles on this page. Meanwhile, the platform will display the remaining time of the current exam.
+
+
+ \textbf{feature 10} Auto-Grading: On the exam pages, when the user submits, or the exam time is over. The platform automatically grades the exam and reports the incorrect number/total number.
+
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Extra Implementation}
+
+\subsection{User Information Management Extension}
+The administrator is taken into consideration here.
+
+ \textbf{extra feature 1} Participant Information Management:
+For administrator, he/she can update the name, identity(puzzle creator or student) and password for all users. And administrator can delete user’s information. Here, administrator also have right to update his/her own user name and password, but cannot change the identity.
+
+\subsection{Puzzle Collection Management Extension}
+
+The extra feature is based on the core feature.
+
+ \textbf{extra feature 2} Create Puzzles:
+
+
+1) Add filling blanket puzzles type in, puzzle creators need to give the description of the puzzle and the answer of the puzzles. Same as choice puzzles, the answer must be given.
+
+2) Puzzle creators can create puzzles by uploading a file. The format of the file is fixed. If puzzle creators write the puzzles in the designed format, all puzzles in the file can be automatically upload to the puzzle database.
+
+
+\subsection{Puzzle Platform Extension}
+
+More features are added to enhance candidate experience. 
+
+ \textbf{extra feature 3} Exam Preservation: After the user has finished the exam, they can choose whether to save the current exam to the database. The puzzles and user answers will be recorded.
+ 
+ \textbf{extra feature 4} Number Collection: How many time each puzzle is answered will be recored. And the correct rate of each puzzle will be recorded as will. This feedback can show the popularity and difficulty of puzzles, which will help the creator to update the puzzle collection.
+
+\subsection{Inquiry Management}
+
+Inquiry feature will be added as extra feature.
+
+ \textbf{extra feature 5} History Exam Record Inquiry: Users can check past exams, view exam puzzles, their own answers and correct answers.
+
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
