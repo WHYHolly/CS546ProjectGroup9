@@ -140,12 +140,15 @@ router.post("/createQuestion", async (req, res) => {
     let op_arr = questionInfo.op;
     let option_arr = questionInfo.option;
 
-    console.log(option_arr[op_arr])
+    // console.log(option_arr[op_arr])
     answers.push(option_arr[op_arr]);
-    option_arr.splice(op_arr,op_arr);
+    console.log(op_arr)
+    console.log(option_arr)
+    option_arr.splice(op_arr,1);
+    console.log(option_arr)
     options = option_arr
 
-    console.log(answers, options)
+    // console.log(answers, options)
 
     if(!content){
         res.status(400).json({ error: "You must provide Effective content" }).end();
@@ -245,7 +248,7 @@ router.post("/modifyQues", async (req, res) => {
 
     // console.log(answers, options)
 
-    if(answers.length + options.length !== 4){
+    if((answers.length + options.length !== 4) || (newQuestionInfo.op === "")){
         res.status(400).json({ error: "Please make sure there is empty and duplicate option." }).end();
         return;
     }
