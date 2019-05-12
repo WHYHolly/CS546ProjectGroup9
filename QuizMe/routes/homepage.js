@@ -19,7 +19,7 @@ router.get("/",checkNotLogin, async (req, res) => {
 
 router.post("/register", async (req, res) => {
     // console.log('Register Page');
-    console.log("register POST SUCCESS")
+    // console.log("register POST SUCCESS")
     // console.log(req.body)
 
     const RegisterInfo = req.body;
@@ -132,7 +132,7 @@ router.post("/login", async (req, res) => {
 router.post("/accountUpdate",async (req, res) => {
     //get the Update infomation(name,OldPassword,NewPassword,identity) frome request
     const longinInfo = req.body;
-    console.log(longinInfo)
+    // console.log(longinInfo)
     // const name = longinInfo.username;
 
 
@@ -227,10 +227,10 @@ router.post("/takeQuiz", async (req, res) => {
         
 
     }catch(e){
-        console.log("Here we are")
+        // console.log("Here we are")
         if(identity === 'candidate'){
             req.session.errors = e.toString()
-            console.log(req.session.errors, "error pass IN")
+            // console.log(req.session.errors, "error pass IN")
             res.redirect('/QuizMeCandidate/startQuiz')
         }else if(identity === 'creator'){
             req.session.errors = e.toString()
@@ -245,7 +245,7 @@ router.post("/takeQuiz", async (req, res) => {
 router.post("/QuizSubmit", async (req, res) => {
 
     const answerInfo = req.body;
-    console.log(answerInfo)
+    // console.log(answerInfo)
     const identity = req.session.user.identity;
     let quizId = req.session.Q_id;
     let Sub_ANS = answerInfo.Submission;
@@ -259,7 +259,7 @@ router.post("/QuizSubmit", async (req, res) => {
         Submission.push(temp)
     }
 
-    console.log(Submission)
+    // console.log(Submission)
     let quizData;
 
     try{
@@ -268,7 +268,7 @@ router.post("/QuizSubmit", async (req, res) => {
         req.session.Q_id = undefined;
         // console.log(quizData)
         req.session.quizData = quizData;
-        console.log(req.session.quizData)
+        // console.log(req.session.quizData)
 
         if(identity === 'candidate'){
             res.redirect('/QuizMeCandidate/QuizScore');
