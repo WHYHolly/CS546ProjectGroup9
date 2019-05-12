@@ -23,7 +23,8 @@ router.get("/accountUpdate",checkCandidatesLogin, async (req, res) => {
     res.render('mainpage/accountupdate',{
         title: "Account Update",
         HOMEPAGE_AU_CSS: true,
-        identity: "Candidate"
+        identity: "Candidate",
+        candidate_type: true
     });
 });
 
@@ -42,12 +43,16 @@ router.get("/startQuiz",checkCandidatesLogin, async (req, res) => {
 
 router.get("/QuizScore",checkCandidatesLogin, async (req, res) => {
     // res.send('Questions create Page');
-    req.session.quizData
-    console.log(req.session.quizData)
+    let quizInfo = req.session.quizData;
+    let  quizName = quizInfo.quizName;
+    let  quizScore = quizInfo.quizScore
+    
+    req.session.quizData = undefined;
+
     res.render('Quiz/QuizResult',{
         title: "Quiz Result",
-        Name: req.session.quizData.quizName,
-        Score: req.session.quizData.quizScore,
+        Name: quizName,
+        Score: quizScore,
         Show_score: true,
         candidade_type: true
     });

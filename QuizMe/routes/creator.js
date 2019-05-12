@@ -60,17 +60,23 @@ router.get("/accountUpdate",checkCreatorsLogin,async (req, res) => {
     res.render('mainpage/accountupdate',{
         title: "Account Update",
         HOMEPAGE_AU_CSS: true,
-        identity: "Creator"
+        identity: "Creator",
+        creator_type: true
     });
 });
 
 router.get("/QuizScore",checkCreatorsLogin,async (req, res) => {
     // res.send('Questions create Page');
-    req.session.quizData
+    let quizInfo = req.session.quizData;
+    let  quizName = quizInfo.quizName;
+    let  quizScore = quizInfo.quizScore
+    
+    req.session.quizData = undefined;
+
     res.render('Quiz/QuizResult',{
         title: "Quiz Result",
-        Name: req.session.quizData.quizName,
-        Score: req.session.quizData.quizScore,
+        Name: quizName,
+        Score: quizScore,
         Show_score: true,
         creator_type: true
     });
@@ -95,14 +101,23 @@ router.get("/QuizHistory",checkCreatorsLogin,async (req, res) => {
     }
 });
 
-router.get('/modifyQues/:id', async (req, res) => {
-    // console.log(req.params.id)
-
+//Check the question is created by the current creator
+async function checkCurrent(req,res,next){
     const Quesresult = await questions.getById(req.params.id)
+    if(!req.session.user){
+        res.redirect('/QuizMe');
+        return;
+    }else if(req.session.user.userId != Quesresult.creator){
+     res.redirect('/QuizMe');
+     return;
+    }
+    next();
+}
 
+router.get('/modifyQues/:id',checkCurrent,async (req, res) => {
+    const Quesresult = await questions.getById(req.params.id)
     req.session.QuesModify = Quesresult;
 
-    console.log(Quesresult)
     res.render("Question/modifyQues",{
         title: "Update Question",
         Ques: Quesresult,
@@ -111,7 +126,7 @@ router.get('/modifyQues/:id', async (req, res) => {
 
 });
 
-router.get('/deleteQues/:id', async (req, res) => {
+router.get('/deleteQues/:id',checkCurrent,async (req, res) => {
     // console.log(req.params.id)
 
     const Quesresult = await questions.getById(req.params.id)
@@ -292,6 +307,8 @@ router.post("/modifyQues", async (req, res) => {
 
         questionData = await questions.updateQuestion(questionId,content,answers,options);
         console.log(questionData)
+        //clean session
+        req.session.QuesModify = undefined;
         // res.json(questionData);
         res.send({ success: true })
     }catch(e){
@@ -313,6 +330,9 @@ router.post("/deleteQues", async (req, res) => {
 
   try{
       deleteInfo = await questions.deleteQuestion(req.session.Quesdelete._id);
+      //clean session
+      req.session.Quesdelete = undefined;
+
       res.send({ success: true })
     //   res.json(deleteInfo);
   }catch(e){
